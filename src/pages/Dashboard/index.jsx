@@ -16,6 +16,10 @@ const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const navigate = useNavigate();
 
+  const handleToggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
+
   const handleMenuSelect = (view) => {
     if (view === "users") {
       navigate("/dashboard");
@@ -26,12 +30,19 @@ const Dashboard = () => {
     }
   };
 
+  const handleLogout = () => {
+    // Your logout logic here
+    localStorage.clear();
+    window.location.href = "/login";
+  };
+
   return (
     <div className="flex h-screen">
       <Sidebar
         isOpen={isSidebarOpen}
-        toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+        toggleSidebar={handleToggleSidebar}
         onMenuSelect={handleMenuSelect}
+        onLogout={handleLogout}
       />
       <div
         className={`transition-all duration-300 ${
@@ -45,7 +56,7 @@ const Dashboard = () => {
             element={
               <AddUserForm
                 onUserAdded={() => {
-                  toast.success("Foydalanuvchi muvaffaqiyatli qo'shildi!");
+                  // toast.success("Foydalanuvchi muvaffaqiyatli qo'shildi!");
                   navigate("/dashboard");
                 }}
               />
@@ -56,7 +67,7 @@ const Dashboard = () => {
             element={
               <EditUser
                 onSave={() => {
-                  toast.success("Foydalanuvchi muvaffaqiyatli yangilandi!");
+                  // toast.success("Foydalanuvchi muvaffaqiyatli yangilandi!");
                   navigate("/dashboard");
                 }}
               />

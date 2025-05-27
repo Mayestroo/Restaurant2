@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import getMeal from "../../api/meal";
-import MealCard from './../MealCard/index';
+import MealCard from './../MealCard';
 
-const MealContainer = ({ selectedType, searchQuery }) => {
+const MealContainer = ({ selectedType, searchQuery, CardComponent  = MealCard}) => {
   const [meals, setMeals] = useState([]);
   const [filteredMeals, setFilteredMeals] = useState([]);
   const token = localStorage.getItem("access_token");
@@ -32,7 +32,7 @@ const MealContainer = ({ selectedType, searchQuery }) => {
       {error ? (
         <p className="text-red-500">{error}</p>
       ) : (
-        <MealCard meals={filteredMeals} />
+        <CardComponent meals={filteredMeals} />
       )}
     </div>
   );

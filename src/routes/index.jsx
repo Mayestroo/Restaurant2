@@ -1,19 +1,22 @@
-import { lazy } from 'react';
-import RoleBasedRoute from '../components/auth/RoleBasedRoute';
-import PublicRoute from '../components/auth/PublicRoute';
+import { lazy } from "react"; // ✅ Removed Children
+import RoleBasedRoute from "../components/auth/RoleBasedRoute";
+import PublicRoute from "../components/auth/PublicRoute";
+import OrderHub from "../pages/Waiter/OrderHub";
+import WaiterSettings from "../pages/Waiter/Settings";
+import WaiterMenu from "../pages/Waiter/Menu";
 
-const User = lazy(() => import('../pages/User'));
-const Login = lazy(() => import('../pages/Auth'));
-const Dashboard = lazy(() => import('../pages/Dashboard'));
-const Waiter = lazy(() => import('../pages/Waiter'));
-const Cooker = lazy(() => import('../pages/Cooker'));
-const Unauthorized = lazy(() => import('../pages/Unauthorized'));
+const User = lazy(() => import("../pages/User"));
+const Login = lazy(() => import("../pages/Auth"));
+const Dashboard = lazy(() => import("../pages/Dashboard"));
+const Waiter = lazy(() => import("../pages/Waiter"));
+const Cooker = lazy(() => import("../pages/Cooker"));
+const Unauthorized = lazy(() => import("../pages/Unauthorized"));
 
 export const routes = [
-  { path: '/', element: <User /> },
+  { path: "/", element: <User /> },
 
   {
-    path: '/login',
+    path: "/login",
     element: (
       <PublicRoute>
         <Login />
@@ -22,7 +25,7 @@ export const routes = [
   },
 
   {
-    path: '/dashboard/*',
+    path: "/dashboard/*",
     element: (
       <RoleBasedRoute allowedRoles={[1, 4]}>
         <Dashboard />
@@ -31,16 +34,21 @@ export const routes = [
   },
 
   {
-    path: '/waiter',
+    path: "/waiter",
     element: (
       <RoleBasedRoute allowedRoles={[2]}>
         <Waiter />
       </RoleBasedRoute>
     ),
+    children: [
+      { index: true, element: <WaiterMenu /> },
+      { path: "orders", element: <OrderHub /> },
+      { path: "settings", element: <WaiterSettings /> },
+    ],
   },
 
   {
-    path: '/cooker',
+    path: "/cooker",
     element: (
       <RoleBasedRoute allowedRoles={[3]}>
         <Cooker />
@@ -49,7 +57,7 @@ export const routes = [
   },
 
   {
-    path: '/unauthorized',
+    path: "/unauthorized",
     element: <Unauthorized />,
   },
 ];

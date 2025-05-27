@@ -36,6 +36,7 @@ const User = () => {
             <MealContainer
               selectedType={selectedType}
               searchQuery={searchQuery}
+              cardComponent="MealCard"
             />
           )}
         </div>
