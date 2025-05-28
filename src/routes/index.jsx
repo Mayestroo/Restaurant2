@@ -11,6 +11,7 @@ const Dashboard = lazy(() => import("../pages/Dashboard"));
 const Waiter = lazy(() => import("../pages/Waiter"));
 const Cooker = lazy(() => import("../pages/Cooker"));
 const Unauthorized = lazy(() => import("../pages/Unauthorized"));
+import CookerHub from "./../pages/Cooker/CookerHub/index";
 
 export const routes = [
   { path: "/", element: <User /> },
@@ -54,6 +55,7 @@ export const routes = [
         <Cooker />
       </RoleBasedRoute>
     ),
+    children: [{ index: true, element: <CookerHub /> }],
   },
 
   {

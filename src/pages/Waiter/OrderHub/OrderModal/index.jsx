@@ -1,4 +1,5 @@
 import { X } from "lucide-react";
+import dayjs from "dayjs";
 
 const OrderModal = ({ showModal, setShowModal, selectedOrder }) => {
   if (!showModal || !selectedOrder) return null;
@@ -33,7 +34,7 @@ const OrderModal = ({ showModal, setShowModal, selectedOrder }) => {
         </p>
         <p>
           <span className="font-semibold text-gray-700">Vaqti:</span>{" "}
-          {selectedOrder.orderedTime}
+          {dayjs(selectedOrder.orderedTime).format("DD.MM.YYYY HH:mm")}
         </p>
         <div className="mt-6 flex gap-2 justify-end">
           <button

@@ -1,12 +1,15 @@
 import { toast } from 'react-toastify';
-
-export async function AddOrder(token, orderData, setDatas, setError, clearData) {
+export async function WaiterAddOrder(token, orderData, setDatas, setError, clearData, waiterId) {
   try {
     if (!token) {
       throw new Error('Authentication token is missing');
     }
+    // Inject waiterId if not already in orderData
+    if (waiterId && !orderData.waiterId) {
+      orderData.waiterId = waiterId;
+    }
 
-    const response = await fetch('http://localhost:5063/api/Order/AddOrder', {
+    const response = await fetch('http://localhost:5063/api/Order/WaiterAddOrder', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -23,7 +26,7 @@ export async function AddOrder(token, orderData, setDatas, setError, clearData) 
     }
 
     const data = await response.json();
-    console.log('User API Response:', data);
+    console.log('Waiter API Response:', data);
 
     const resultData = data.result?.data || data.data || data;
     setError(null);
@@ -31,7 +34,7 @@ export async function AddOrder(token, orderData, setDatas, setError, clearData) 
 
     toast.success('Buyurtma muvaffaqiyatli jo‘natildi!');
 
-    localStorage.removeItem('addedMeals');
+    localStorage.removeItem('waiter_addedMeals');
     localStorage.removeItem('customerData');
 
     if (typeof clearData === 'function') {

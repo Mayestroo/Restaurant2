@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { X, Menu } from "lucide-react";
 
 const Sidebar = ({
@@ -11,6 +11,8 @@ const Sidebar = ({
   footerAction,
   fullWidth = true, // false = collapsible mode like Dashboard
 }) => {
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
   const handleOverlayClick = (e) => {
     if (e.target.id === "sidebar-overlay") {
       onClose?.();
@@ -61,7 +63,11 @@ const Sidebar = ({
             className={`w-8 h-8 rounded-full flex items-center justify-center
               ${fullWidth ? "bg-red-100" : "text-white"}`}
           >
-            {isOpen ? <X size={20} className="text-red-600" /> : <Menu size={20} />}
+            {isOpen ? (
+              <X size={20} className="text-red-600" />
+            ) : (
+              <Menu size={20} />
+            )}
           </button>
         </div>
 
@@ -70,9 +76,16 @@ const Sidebar = ({
           {items.map((item, idx) => (
             <div
               key={idx}
-              onClick={item.onClick}
+              onClick={() => {
+                item.onClick?.(); // Execute the original item click handler
+                onClose?.(); // Close the sidebar automatically
+              }}
               className={`flex items-center space-x-3 px-3 py-2 rounded-lg cursor-pointer
-                ${item.active ? "bg-blue-100 text-blue-600" : "hover:bg-gray-100 text-black"}
+                ${
+                  item.active
+                    ? "bg-blue-100 text-blue-600"
+                    : "hover:bg-gray-100 text-black"
+                }
                 ${!fullWidth && "text-white hover:text-gray-400 hover:bg-gray-800"}`}
             >
               <div
@@ -82,7 +95,9 @@ const Sidebar = ({
               >
                 {item.icon}
               </div>
-              {isOpen && <span className="text-sm font-medium">{item.label}</span>}
+              {isOpen && (
+                <span className="text-sm font-medium">{item.label}</span>
+              )}
             </div>
           ))}
         </nav>
@@ -91,9 +106,11 @@ const Sidebar = ({
         {footerAction && (
           <div className="absolute bottom-4 left-0 w-full px-4">
             <button
-              onClick={footerAction.onClick}
+              onClick={() => setShowLogoutModal(true)}
               className={`flex items-center justify-between w-full px-4 py-2 rounded-lg
-                ${footerAction.bg || "bg-gray-100"} text-${footerAction.textColor || "red-500"}`}
+                ${footerAction.bg || "bg-gray-100"} text-${
+                footerAction.textColor || "red-500"
+              }`}
             >
               <span>{footerAction.label}</span>
               {footerAction.icon}
@@ -101,6 +118,32 @@ const Sidebar = ({
           </div>
         )}
       </div>
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-xl shadow-xl p-8 min-w-[300px]">
+            <h2 className="text-lg font-semibold mb-4 text-center">Chiqishni tasdiqlaysizmi?</h2>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setShowLogoutModal(false)}
+                className="px-4 py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
+              >
+                Bekor qilish
+              </button>
+              <button
+                onClick={() => {
+                  setShowLogoutModal(false);
+                  footerAction?.onClick();
+                }}
+                className="px-4 py-2 rounded bg-red-600 hover:bg-red-700 text-white"
+              >
+                Chiqish
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

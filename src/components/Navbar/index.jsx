@@ -52,7 +52,7 @@ const Navbar = ({
     >
       {/* Left Section */}
       <div className="flex items-center space-x-3">
-        {type === "waiter" && (
+        {(type === "waiter" || type === "cooker") && (
           <button
             onClick={onMenuClick}
             className="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow"

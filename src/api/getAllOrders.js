@@ -14,7 +14,6 @@ export const getAllOrders = async ({ skip = 0, take = 10 } = {}) => {
     );
     if (!response.ok) throw new Error("Failed to fetch orders");
     const data = await response.json();
-    // API returns: { statusCode, result: { total_counts, data }, ... }
     return {
       orders: data.result?.data || [],
       total: data.result?.total_counts || 0,

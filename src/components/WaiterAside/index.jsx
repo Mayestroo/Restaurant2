@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useWaiterMeals } from "../../context/WaiterMealContext";
 import line from "../../assets/line.svg";
-import { AddOrder } from "../../api/order";
+import { WaiterAddOrder } from "../../api/WaiterAddOrder";
 
 const WaiterAside = ({ showModal, setShowModal }) => {
   const { addedMeals, setAddedMeals } = useWaiterMeals();
@@ -50,7 +50,7 @@ const WaiterAside = ({ showModal, setShowModal }) => {
         client: { tableNumber: 1 },
       };
 
-      await AddOrder(token, orderData, setDatas, setError, clearData);
+      await WaiterAddOrder(token, orderData, setDatas, setError, clearData);
       setShowModal(false);
     } catch (err) {
       setError("Buyurtma yuborishda xatolik: " + err.message);
