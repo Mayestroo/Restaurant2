@@ -15,7 +15,7 @@ const AddCategory = () => {
     if (isEdit) {
       const fetchCategory = async () => {
         try {
-          const res = await fetch(`http://localhost:5063/api/CategoryControlller/CategoryById?id=${id}`);
+          const res = await fetch(`http://localhost:5050/api/CategoryControlller/CategoryById?id=${id}`);
           if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
           const data = await res.json();
           const result = data.result;
@@ -41,8 +41,8 @@ const AddCategory = () => {
 
     try {
       const url = isEdit
-        ? "http://localhost:5063/api/CategoryControlller/UpdateCategory"
-        : "http://localhost:5063/api/CategoryControlller/AddCategory";
+        ? "http://localhost:5050/api/CategoryControlller/UpdateCategory"
+        : "http://localhost:5050/api/CategoryControlller/AddCategory";
 
       const method = isEdit ? "PUT" : "POST";
 

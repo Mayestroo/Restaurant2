@@ -37,8 +37,7 @@ const Navbar = ({
   title = "",
   subtitle = "",
   showGreeting = false,
-  showCallWaiter = false,
-  showAddOrder = false,
+  showCallWaiter = false
 }) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -46,11 +45,10 @@ const Navbar = ({
     <div
       className={`w-full ${
         type === "client"
-          ? "flex flex-col gap-3 items-center min-[735px]:flex-row flex-wrap md:justify-between"
-          : "flex justify-between items-center px-4 py-3 bg-gray-50 shadow-sm"
+          ? "flex fixed h-16 flex-col gap-3 mt-2 z-50 items-center min-[735px]:flex-row flex-wrap"
+          : "flex fixed justify-between items-center px-4 py-3 bg-gray-50 z-50 shadow-sm"
       }`}
     >
-      {/* Left Section */}
       <div className="flex items-center space-x-3">
         {(type === "waiter" || type === "cooker") && (
           <button
@@ -82,7 +80,6 @@ const Navbar = ({
         )}
       </div>
 
-      {/* Right Section */}
       <div className="flex items-center gap-3">
         <div
           className={`flex items-center gap-2 ${
@@ -121,22 +118,12 @@ const Navbar = ({
           </button>
         )}
 
-        {showAddOrder && (
-          <button
-            onClick={onAddOrder}
-            className="flex items-center gap-2 bg-green-100 text-green-600 px-3 py-1.5 rounded-full shadow"
-          >
-            <span>Buyurtma qo‘shish</span>
-            <Plus className="w-4 h-4" />
-          </button>
-        )}
-
-        {/* Show the correct basket for the current type */}
         {type === "waiter" ? (
           <WaiterBasket onClick={() => setShowModal(true)} />
         ) : (
           <Basket onClick={() => setShowModal(true)} />
         )}
+        
         {type === "waiter" ? (
           <WaiterAside showModal={showModal} setShowModal={setShowModal} />
         ) : (

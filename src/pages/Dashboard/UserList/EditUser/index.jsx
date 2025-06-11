@@ -25,9 +25,9 @@ const EditUser = ({ onSave }) => {
     const fetchData = async () => {
       try {
         const [rolesRes, permsRes, userRes] = await Promise.all([
-          axios.get("http://localhost:5225/api/Dashboard/AllRoles"),
-          axios.get(`http://localhost:5225/api/Dashboard/GetAllPermissions?userId=${id}&skip=0&take=100`),
-          axios.get(`http://localhost:5225/api/Dashboard/GetUserById?userId=${id}`),
+          axios.get("http://localhost:5500/api/Dashboard/AllRoles"),
+          axios.get(`http://localhost:5500/api/Dashboard/GetAllPermissions?userId=${id}&skip=0&take=100`),
+          axios.get(`http://localhost:5500/api/Dashboard/GetUserById?userId=${id}`),
         ]);
 
         const roles = rolesRes.data.result?.data || [];
@@ -91,7 +91,7 @@ const EditUser = ({ onSave }) => {
       };
 
       const res = await axios.put(
-        "http://localhost:5225/api/Dashboard/UpdateUser",
+        "http://localhost:5500/api/Dashboard/UpdateUser",
         payload,
         { headers: { "Content-Type": "application/json" } }
       );

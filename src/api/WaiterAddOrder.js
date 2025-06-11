@@ -4,12 +4,11 @@ export async function WaiterAddOrder(token, orderData, setDatas, setError, clear
     if (!token) {
       throw new Error('Authentication token is missing');
     }
-    // Inject waiterId if not already in orderData
     if (waiterId && !orderData.waiterId) {
       orderData.waiterId = waiterId;
     }
 
-    const response = await fetch('http://localhost:5063/api/Order/WaiterAddOrder', {
+    const response = await fetch('http://localhost:5050/api/Order/WaiterAddOrder', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,

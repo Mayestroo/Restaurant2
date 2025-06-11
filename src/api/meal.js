@@ -6,8 +6,7 @@ export default async function getMeal(
   name
 ) {
   try {
-    const url = "http://localhost:5063/api/Meal/Meals";
-
+    const url = "http://localhost:5050/api/Meal/Meals";
     const requestBody = {
       name: name,
       categoryId: categoryId,
@@ -30,10 +29,9 @@ export default async function getMeal(
     }
 
     const data = await response.json();
-    setError(null);
     setDatas(data?.result?.data);
   } catch (error) {
-    console.error("Error fetching meals:", error);
+    // console.error("Error fetching meals:", error);
     setError("Failed to fetch meals. Please try again.");
   }
 }

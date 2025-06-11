@@ -10,7 +10,7 @@ const EditCategory = ({ onSave }) => {
   const [category, setCategory] = useState({ name: "" });
   const [loading, setLoading] = useState(true);
 
-  const API_BASE_URL = "http://localhost:5063/api/CategoryControlller";
+  const API_BASE_URL = "http://localhost:5050/api/CategoryControlller";
 
   useEffect(() => {
     const fetchCategory = async () => {

@@ -64,7 +64,7 @@ const Waiter = () => {
             }}
             fullWidth={true}
           />
-          <main className="flex-1 p-4 overflow-y-auto">
+          <main className="overflow-y-auto">
             <Outlet />
           </main>
         </div>

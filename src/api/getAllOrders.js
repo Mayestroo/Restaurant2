@@ -1,9 +1,8 @@
-// api/getAllOrders.js
-export const getAllOrders = async ({ skip = 0, take = 10 } = {}) => {
+  export const getAllOrders = async ({ skip = 0, take = 10 } = {}) => {
   try {
     const token = localStorage.getItem("access_token");
     const response = await fetch(
-      `http://localhost:5063/api/Order/ActiveOrders?skip=${skip}&take=${take}`,
+      `http://localhost:5050/api/Order/ActiveOrders?skip=${skip}&take=${take}`,
       {
         method: "GET",
         headers: {

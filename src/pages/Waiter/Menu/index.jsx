@@ -30,21 +30,18 @@ const WaiterMenu = () => {
 
   return (
     <section className="layout flex flex-col lg:flex-row w-full min-h-screen bg-[#F7F7F7] bg-auto">
-      <div className="flex-1 flex flex-col gap-5 p-5">
-        {/* No Navbar */}
+      <div className="flex-1 flex flex-col gap-5">
         <Categories setSelectedType={setSelectedType} />
         <Search onSearch={setSearchQuery} />
         {selectedType && (
           <MealContainer
             selectedType={selectedType}
             searchQuery={searchQuery}
-            CardComponent={WaiterMealCard} // Pass the actual component!
+            CardComponent={WaiterMealCard} 
           />
         )}
-        {/* Waiter Basket */}
         <WaiterBasket onClick={() => setShowModal(true)} />
       </div>
-      {/* Aside/modal */}
       <div className="aside-in block">
         <WaiterAside showModal={showModal} setShowModal={setShowModal} />
       </div>

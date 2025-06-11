@@ -18,8 +18,8 @@ const AddUserForm = ({ onUserAdded }) => {
     const fetchRolesAndPermissions = async () => {
       try {
         const [rolesRes, permsRes] = await Promise.all([
-          axios.get("http://localhost:5225/api/Dashboard/AllRoles"),
-          axios.get("http://localhost:5225/api/Dashboard/GetAllPermissions?skip=0&take=100"),
+          axios.get("http://localhost:5500/api/Dashboard/AllRoles"),
+          axios.get("http://localhost:5500/api/Dashboard/GetAllPermissions?skip=0&take=100"),
         ]);
 
         setRoles(rolesRes.data.result?.data || []);
@@ -80,7 +80,7 @@ const AddUserForm = ({ onUserAdded }) => {
     setLoading(true);
     try {
       await axios.post(
-        "http://localhost:5225/api/Dashboard/AddUser",
+        "http://localhost:5500/api/Dashboard/AddUser",
         {
           ...formData,
           role: parseInt(formData.role),

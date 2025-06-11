@@ -7,7 +7,7 @@ const handleAcceptOrder = async (
 ) => {
   try {
     const response = await fetch(
-      `http://localhost:5063/api/Order/WaitorAcceptOrder?orderId=${orderId}`,
+      `http://localhost:5050/api/Order/WaitorAcceptOrder?orderId=${orderId}`,
       {
         method: "PUT",
         headers: {
@@ -30,7 +30,7 @@ const handleAcceptOrder = async (
     console.log(" Buyurtma qabul qilindi:", data);
 
     setShowModal(false);
-    fetchOrders(); // Refresh orders
+    fetchOrders(); 
   } catch (error) {
     console.error("Buyurtma qabul qilishda xatolik:", error);
     setError("Buyurtma qabul qilishda xatolik: " + error.message);

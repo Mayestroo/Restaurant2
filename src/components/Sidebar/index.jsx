@@ -9,7 +9,7 @@ const Sidebar = ({
   title,
   items = [],
   footerAction,
-  fullWidth = true, // false = collapsible mode like Dashboard
+  fullWidth = true,
 }) => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
@@ -77,8 +77,8 @@ const Sidebar = ({
             <div
               key={idx}
               onClick={() => {
-                item.onClick?.(); // Execute the original item click handler
-                onClose?.(); // Close the sidebar automatically
+                item.onClick?.(); 
+                onClose?.(); 
               }}
               className={`flex items-center space-x-3 px-3 py-2 rounded-lg cursor-pointer
                 ${

@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 
-// Default state
 const defaultCustomer = { name: "Ma'mirjon", tableNumber: 7 };
 export const MealsContext = createContext();
 
@@ -23,7 +22,6 @@ export const MealsProvider = ({ children }) => {
     }
   });
 
-  // Sync with localStorage
   useEffect(() => {
     try {
       localStorage.setItem('addedMeals', JSON.stringify(addedMeals));
@@ -40,7 +38,6 @@ export const MealsProvider = ({ children }) => {
     }
   }, [customerData]);
 
-  // Add meal logic
   const addMeal = (meal) => {
     setAddedMeals((prev) => {
       const existing = prev.find((m) => m.id === meal.id);
@@ -53,7 +50,6 @@ export const MealsProvider = ({ children }) => {
     });
   };
 
-  // Remove meal logic
   const removeMeal = (mealId) => {
     setAddedMeals((prev) => {
       const existing = prev.find((m) => m.id === mealId);
@@ -67,12 +63,10 @@ export const MealsProvider = ({ children }) => {
     });
   };
 
-  // Update customer
   const updateCustomerData = (name, tableNumber) => {
     setCustomerData({ name, tableNumber });
   };
 
-  // Clear method
   const clearData = ({ clearMeals = true, clearCustomer = true } = {}) => {
     if (clearMeals) {
       setAddedMeals([]);
@@ -100,7 +94,6 @@ export const MealsProvider = ({ children }) => {
   );
 };
 
-// ✅ 2. Custom hook
 export const useMeals = () => {
   const context = useContext(MealsContext);
   if (!context) throw new Error("useMeals must be used inside MealsProvider");

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useWaiterMeals } from "../../context/WaiterMealContext";
 import line from "../../assets/line.svg";
 import { WaiterAddOrder } from "../../api/WaiterAddOrder";
@@ -21,7 +21,6 @@ const WaiterAside = ({ showModal, setShowModal }) => {
   const serviceFee = 0;
   const grandTotal = totalAmount + serviceFee;
 
-  // Clear basket after order
   const clearData = () => setAddedMeals([]);
 
   const sendOrderToBackend = async () => {
@@ -59,11 +58,19 @@ const WaiterAside = ({ showModal, setShowModal }) => {
     }
   };
 
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [showModal]);
+
   return (
-    <div className="fixed inset-0 z-[99] bg-[#5D7FC1]/50 bg-opacity-50 flex items-center justify-center">
+    <div onClick={() => setShowModal(false)} className="fixed inset-0 z-[99] bg-[#5D7FC1]/50 bg-opacity-50 flex items-center justify-center">
       <div className="relative w-full max-w-md bg-white rounded-xl p-6 shadow-lg">
         <button
-          className="absolute top-3 right-4 text-xl text-gray-600 hover:text-red-500"
+          className="absolute z-[100] top-3 right-4 text-xl"
           onClick={() => setShowModal(false)}
           aria-label="Close"
         >
@@ -113,11 +120,10 @@ const WaiterAside = ({ showModal, setShowModal }) => {
         <button
           onClick={sendOrderToBackend}
           disabled={isSubmitting || addedMeals.length === 0}
-          className={`mt-5 w-full py-3 rounded-lg text-lg font-medium transition ${
-            addedMeals.length === 0 || isSubmitting
-              ? "bg-gray-300 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700 text-white"
-          }`}
+          className={`mt-5 w-full py-3 rounded-lg text-lg font-medium transition ${addedMeals.length === 0 || isSubmitting
+            ? "bg-gray-300 cursor-not-allowed"
+            : "bg-blue-600 hover:bg-blue-700 text-white"
+            }`}
         >
           {isSubmitting ? "Yuborilmoqda..." : "Buyurtma qilish"}
         </button>

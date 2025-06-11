@@ -22,7 +22,7 @@ const AddMeal = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.1.245:5063/api/CategoryControlller/AllCategories"
+          "http://localhost:5050/api/CategoryControlller/AllCategories"
         );
         if (response.data.result && Array.isArray(response.data.result.data)) {
           setCategories(response.data.result.data);

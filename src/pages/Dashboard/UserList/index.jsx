@@ -13,7 +13,7 @@ const UserList = () => {
   const fetchUsers = async () => {
     try {
       const res = await fetch(
-        `http://localhost:5225/api/Dashboard/GetAllUsers?skip=0&take=100&t=${Date.now()}`
+        `http://localhost:5500/api/Dashboard/GetAllUsers?skip=0&take=100&t=${Date.now()}`
       );
       const data = await res.json();
       const userArray = data.result?.data || [];
@@ -33,7 +33,7 @@ const UserList = () => {
     }
     try {
       const res = await fetch(
-        `http://localhost:5225/api/Dashboard/RemoveUser?userId=${userId}`,
+        `http://localhost:5500/api/Dashboard/RemoveUser?userId=${userId}`,
         {
           method: "DELETE",
         }

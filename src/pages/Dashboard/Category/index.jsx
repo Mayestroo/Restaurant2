@@ -15,7 +15,7 @@ const Category = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:5063/api/CategoryControlller/AllCategories?skip=0&take=100&t=${Date.now()}`
+        `http://localhost:5050/api/CategoryControlller/AllCategories?skip=0&take=100&t=${Date.now()}`
       );
       const categoryArray = response.data.result?.data || [];
       if (!Array.isArray(categoryArray)) {
@@ -34,7 +34,7 @@ const Category = () => {
   const removeCategory = async (categoryId) => {
     try {
       await axios.delete(
-        `http://localhost:5063/api/CategoryControlller/Category?categoryId=${categoryId}`
+        `http://localhost:5050/api/CategoryControlller/Category?categoryId=${categoryId}`
       );
       toast.success("Kategoriya muvaffaqiyatli o‘chirildi.");
       setShowModal(false);

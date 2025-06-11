@@ -30,7 +30,7 @@ const Meals = () => {
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
-        "http://192.168.1.245:5063/api/CategoryControlller/AllCategories"
+        "http://localhost:5050/api/CategoryControlller/AllCategories"
       );
       const result = response.data.result;
       console.log("Categories fetched:", result);
@@ -61,7 +61,7 @@ const Meals = () => {
       }
 
       const response = await axios.post(
-        "http://192.168.1.245:5063/api/Meal/Meals",
+        "http://localhost:5050/api/Meal/Meals",
         {
           name: filters.name || "",
           fromPrice,

@@ -1,4 +1,3 @@
-import React from "react";
 import { useWaiterMeals } from "../../context/WaiterMealContext";
 import { ShoppingCart } from "lucide-react";
 

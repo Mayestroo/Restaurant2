@@ -3,9 +3,9 @@ import { useMeals } from "../../context/MealContext";
 import { ShoppingCart } from "lucide-react";
 
 const Basket = ({
-  onClick,                // Callback to open modal or handle action
-  showIfEmpty = false,    // Show even if no items
-  className = "",         // External class override
+  onClick,               
+  showIfEmpty = false,    
+  className = "",         
 }) => {
   const { addedMeals } = useMeals();
 

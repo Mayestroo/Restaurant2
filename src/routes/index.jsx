@@ -12,6 +12,8 @@ const Waiter = lazy(() => import("../pages/Waiter"));
 const Cooker = lazy(() => import("../pages/Cooker"));
 const Unauthorized = lazy(() => import("../pages/Unauthorized"));
 import CookerHub from "./../pages/Cooker/CookerHub/index";
+import ActiveOrders from "../pages/Waiter/OrderHub/ActiveOrders";
+import ClosedOrders from "../pages/Waiter/OrderHub/ClosedOrders";
 
 export const routes = [
   { path: "/", element: <User /> },
@@ -42,8 +44,20 @@ export const routes = [
       </RoleBasedRoute>
     ),
     children: [
-      { index: true, element: <WaiterMenu /> },
-      { path: "orders", element: <OrderHub /> },
+      { element: <WaiterMenu /> },
+      {
+        path: "orders",
+        element: <OrderHub />,
+        children: [
+          {
+            index: true,
+            element: <ActiveOrders />
+          },
+          {
+            element: <ClosedOrders />
+          }
+        ]
+      },
       { path: "settings", element: <WaiterSettings /> },
     ],
   },

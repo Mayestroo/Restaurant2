@@ -1,8 +1,26 @@
 import { X } from "lucide-react";
 import dayjs from "dayjs";
+import { handleAcceptOrder } from '../../../../api/acceptOrder'
 
-const OrderModal = ({ showModal, setShowModal, selectedOrder }) => {
+const OrderModal = ({ showModal,
+  setShowModal,
+  selectedOrder,
+  token,
+  setError,
+  fetchOrders
+}) => {
+
   if (!showModal || !selectedOrder) return null;
+  
+  const onAcceptOrder = () => {
+    handleAcceptOrder(
+      selectedOrder.id,
+      token,
+      setShowModal,
+      setError,
+      fetchOrders
+    );
+  };
 
   return (
     <div
@@ -39,9 +57,9 @@ const OrderModal = ({ showModal, setShowModal, selectedOrder }) => {
         <div className="mt-6 flex gap-2 justify-end">
           <button
             className="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded font-medium"
-            onClick={() => setShowModal(false)}
+            onClick={onAcceptOrder}
           >
-            Yopish
+            Qabul qilish
           </button>
         </div>
       </div>

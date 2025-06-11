@@ -27,8 +27,8 @@ const User = () => {
 
   return (
     <MealsProvider>
-      <section className="layout flex   flex-col lg:flex-row   w-full min-h-screen bg-[#F7F7F7] bg-auto">
-        <div className="flex-1 flex flex-col gap-5 p-5">
+      <section className="layout flex   flex-col lg:flex-row w-full min-h-screen bg-[#F7F7F7] bg-auto">
+        <div className="flex-1 flex flex-col gap-5">
           <Navbar />
           <Categories setSelectedType={setSelectedType} />
           <Search onSearch={setSearchQuery} />
@@ -41,7 +41,6 @@ const User = () => {
           )}
         </div>
 
-        {/* Sidebar */}
         <div className="aside-in block">
           <Aside />
         </div>

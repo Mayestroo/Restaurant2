@@ -9,7 +9,7 @@ export function useMealFetcher() {
     setLoading(true);
     setError(null);
     try {
-      const url = 'http://localhost:5063/api/Meal/Meals';
+      const url = 'http://localhost:5050/api/Meal/Meals';
       const response = await fetch(url, {
         method: 'POST',
         headers: {

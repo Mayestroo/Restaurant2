@@ -3,7 +3,7 @@ import { useWaiterMeals } from "../../context/WaiterMealContext";
 import MealModal from "../MealModal";
 
 const WaiterMealCard = ({ meals }) => {
-  const { addedMeals, addMeal, removeMeal } = useWaiterMeals(); // ✅ Correctly using the context
+  const { addedMeals, addMeal, removeMeal } = useWaiterMeals(); 
   const [selectedMeal, setSelectedMeal] = useState(null);
 
   return (

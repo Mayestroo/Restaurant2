@@ -20,7 +20,7 @@ const RoleBasedRoute = ({ children, allowedRoles }) => {
       return <Navigate to="/unauthorized" state={{ from: location }} replace />;
     }
   } catch (error) {
-    console.error("❌ Invalid token", error);
+    console.error("Invalid token", error);
     return <Navigate to="/login" replace />;
   }
 };

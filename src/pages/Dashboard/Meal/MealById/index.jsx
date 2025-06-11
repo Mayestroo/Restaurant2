@@ -8,7 +8,7 @@ const MealById = () => {
   const [meal, setMeal] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const API_BASE_URL = "http://localhost:5063/api/Meal";
+  const API_BASE_URL = "http://192.168.1.245:5063/api/Meal";
 
   useEffect(() => {
     const fetchMeal = async () => {
