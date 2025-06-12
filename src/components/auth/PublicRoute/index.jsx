@@ -10,7 +10,7 @@ const PublicRoute = ({ children }) => {
       const roleId = Number(payload?.roleId || payload?.RoleId || payload?.RoleID);
 
       if (roleId === 1 || roleId === 4) return <Navigate to="/dashboard" replace />;
-      if (roleId === 2) return <Navigate to="/waiter" replace />;
+      if (roleId === 2) return <Navigate to="/waiter/menu" replace />;
       if (roleId === 3) return <Navigate to="/cooker" replace />;
     } catch {
       // invalid token — allow login

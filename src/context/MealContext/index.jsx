@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
 
 const defaultCustomer = { name: "Ma'mirjon", tableNumber: 7 };
 export const MealsContext = createContext();

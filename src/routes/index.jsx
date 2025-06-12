@@ -14,6 +14,8 @@ const Unauthorized = lazy(() => import("../pages/Unauthorized"));
 import CookerHub from "./../pages/Cooker/CookerHub/index";
 import ActiveOrders from "../pages/Waiter/OrderHub/ActiveOrders";
 import ClosedOrders from "../pages/Waiter/OrderHub/ClosedOrders";
+import { Navigate } from "react-router-dom";
+import CurrentOrders from "../pages/Waiter/OrderHub/CurrentOrders";
 
 export const routes = [
   { path: "/", element: <User /> },
@@ -44,20 +46,37 @@ export const routes = [
       </RoleBasedRoute>
     ),
     children: [
-      { element: <WaiterMenu /> },
+      {
+        index: true,
+        element: <Navigate to="menu" replace />
+      },
+      {
+        path: "menu",
+        element: <WaiterMenu />
+      },
       {
         path: "orders",
         element: <OrderHub />,
         children: [
           {
-            index: true,
-            element: <ActiveOrders />
+            path: "activeorders",
+            element: <ActiveOrders />,
           },
           {
+            path: "currentorders",
+            element: <CurrentOrders />
+          },
+          {
+            path: "closedorders",
             element: <ClosedOrders />
-          }
-        ]
+          },
+          {
+            index: true,
+            element: <Navigate to="activeorders" replace />,
+          },
+        ],
       },
+
       { path: "settings", element: <WaiterSettings /> },
     ],
   },

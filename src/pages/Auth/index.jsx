@@ -58,7 +58,7 @@ function Auth() {
       toast.success("Muvaffaqiyatli tizimga kirildi!");
 
       if (roleId === 1 || roleId === 4) navigate("/dashboard");
-      else if (roleId === 2) navigate("/waiter");
+      else if (roleId === 2) navigate("/waiter/menu");
       else if (roleId === 3) navigate("/cooker");
       else navigate("/unauthorized");
     } catch (err) {

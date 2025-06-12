@@ -36,7 +36,6 @@ const Sidebar = ({
           ${isOpen ? "translate-x-0" : fullWidth ? "-translate-x-full" : ""}
         `}
       >
-        {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
           {user ? (
             <div className="flex items-center space-x-2">
@@ -71,7 +70,6 @@ const Sidebar = ({
           </button>
         </div>
 
-        {/* Menu Items */}
         <nav className="mt-4 px-4 space-y-2">
           {items.map((item, idx) => (
             <div
@@ -102,7 +100,6 @@ const Sidebar = ({
           ))}
         </nav>
 
-        {/* Footer */}
         {footerAction && (
           <div className="absolute bottom-4 left-0 w-full px-4">
             <button
@@ -119,7 +116,6 @@ const Sidebar = ({
         )}
       </div>
 
-      {/* Logout Confirmation Modal */}
       {showLogoutModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-xl shadow-xl p-8 min-w-[300px]">

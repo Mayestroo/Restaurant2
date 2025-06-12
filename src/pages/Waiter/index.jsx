@@ -22,8 +22,8 @@ const Waiter = () => {
     {
       icon: <LayoutGrid />,
       label: "Menu",
-      active: location.pathname === "/waiter",
-      onClick: () => navigate("/waiter"),
+      active: location.pathname === "/waiter/menu",
+      onClick: () => navigate("/waiter/menu"),
     },
     {
       icon: <ShoppingCart />,
@@ -48,7 +48,7 @@ const Waiter = () => {
           type="waiter"
           onMenuClick={handleSidebarOpen}
           showAddOrder
-          title="Buyurtmalar"
+          title=""
           subtitle="Buyurtmalar navbati"
         />
         <div className="flex flex-1">

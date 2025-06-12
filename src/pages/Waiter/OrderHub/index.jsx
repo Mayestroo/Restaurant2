@@ -1,41 +1,10 @@
-import { useEffect, useState } from "react";
-import { getAllOrders } from "../../../api/getAllOrders";
+import { useEffect } from "react";
 import connection from "../../../api/signalR/connection.js";
-import { jwtDecode } from "jwt-decode";
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
+import { useOrders } from "../../../hooks/useOrders";
 
 const OrderHub = () => {
-
-  const token = localStorage.getItem("access_token");
-  let decoded = null;
-  try {
-    decoded = token ? jwtDecode(token) : null;
-  } catch (e) {
-    decoded = null;
-  }
-
-  const fetchOrders = async () => {
-    setLoading(true);
-    try {
-      const { orders: fetchedOrders } = await getAllOrders({
-        skip: 0,
-        take: 1000,
-      });
-      const sortedOrders = fetchedOrders
-        .slice()
-        .sort(
-          (a, b) =>
-            parseOrderNumber(b.orderNumber) - parseOrderNumber(a.orderNumber)
-        );
-      setAllOrders(sortedOrders);
-      setError(null);
-    } catch (err) {
-      setError(err.message || "Buyurtma olishda xatolik.");
-      setAllOrders([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { allOrders, error, fetchOrders } = useOrders();
 
   useEffect(() => {
     fetchOrders();
@@ -43,10 +12,13 @@ const OrderHub = () => {
 
   useEffect(() => {
     const handleReload = () => fetchOrders();
+
     connection.off("NewOrder");
     connection.on("NewOrder", handleReload);
+
     connection.off("RemoveOrder");
     connection.on("RemoveOrder", handleReload);
+
     return () => {
       connection.off("NewOrder", handleReload);
       connection.off("RemoveOrder", handleReload);
@@ -56,18 +28,51 @@ const OrderHub = () => {
   return (
     <div className="orderhub flex flex-row justify-between">
       <aside className="w-[300px] h-[100vh] mt-[70px] fixed p-6 border-r bg-white rounded-r-2xl shadow-md flex flex-col gap-4">
-        <Link to='/waiter/orders/activeorders' className="w-full flex items-center gap-2 px-4 py-3 bg-blue-50 rounded-xl font-semibold text-blue-700 shadow-sm">
+        <NavLink
+          to="activeorders"
+          className={({ isActive }) =>
+            `w-full flex items-center gap-2 px-4 py-3 rounded-xl shadow-sm font-medium transition ${
+              isActive
+                ? "bg-blue-50 text-blue-700 font-semibold"
+                : "hover:bg-gray-100 text-gray-600"
+            }`
+          }
+        >
           Buyurtmalar navbati
-        </Link>
-        <Link to='/waiter/orders/closedorders' className="w-full flex items-center gap-2 px-4 py-3 hover:bg-gray-100 rounded-xl font-medium text-gray-600 transition">
+        </NavLink>
+
+        <NavLink
+          to="currentorders"
+          className={({ isActive }) =>
+            `w-full flex items-center gap-2 px-4 py-3 rounded-xl shadow-sm font-medium transition ${
+              isActive
+                ? "bg-blue-50 text-blue-700 font-semibold"
+                : "hover:bg-gray-100 text-gray-600"
+            }`
+          }
+        >
           Stollar
-        </Link>
-        <button className="w-full flex items-center gap-2 px-4 py-3 hover:bg-gray-100 rounded-xl font-medium text-gray-600 transition">
+        </NavLink>
+
+        <NavLink
+          to="closedorders"
+          className={({ isActive }) =>
+            `w-full flex items-center gap-2 px-4 py-3 rounded-xl shadow-sm font-medium transition ${
+              isActive
+                ? "bg-blue-50 text-blue-700 font-semibold"
+                : "hover:bg-gray-100 text-gray-600"
+            }`
+          }
+        >
           Buyurtmalar tarixi
-        </button>
+        </NavLink>
+
+        {error && <p className="text-red-500 mt-2">{error}</p>}
       </aside>
 
-      <Outlet />
+      <main className="">
+        <Outlet />
+      </main>
     </div>
   );
 };

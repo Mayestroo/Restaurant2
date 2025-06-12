@@ -1,25 +1,19 @@
 import { X } from "lucide-react";
 import dayjs from "dayjs";
-import { handleAcceptOrder } from '../../../../api/acceptOrder'
+import { handleAcceptOrder } from "../../../../api/acceptOrder";
+import { useState } from "react";
 
-const OrderModal = ({ showModal,
-  setShowModal,
-  selectedOrder,
-  token,
-  setError,
-  fetchOrders
-}) => {
+const OrderModal = ({ showModal, setShowModal, selectedOrder, token, fetchOrders }) => {
+  const [error, setError] = useState(null);
 
   if (!showModal || !selectedOrder) return null;
-  
-  const onAcceptOrder = () => {
-    handleAcceptOrder(
-      selectedOrder.id,
-      token,
-      setShowModal,
-      setError,
-      fetchOrders
-    );
+
+  const onAcceptOrder = async () => {
+    try {
+      await handleAcceptOrder(selectedOrder.id, token, setShowModal, setError, fetchOrders);
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
@@ -29,7 +23,7 @@ const OrderModal = ({ showModal,
     >
       <div
         className="relative bg-white/70 backdrop-blur-lg rounded-xl p-8 w-[90vw] max-w-md shadow-2xl border"
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         <button
           className="absolute right-3 top-3 text-gray-400 hover:text-red-500 text-2xl"
@@ -54,6 +48,7 @@ const OrderModal = ({ showModal,
           <span className="font-semibold text-gray-700">Vaqti:</span>{" "}
           {dayjs(selectedOrder.orderedTime).format("DD.MM.YYYY HH:mm")}
         </p>
+        {error && <p className="text-red-500 mt-2">{error}</p>}
         <div className="mt-6 flex gap-2 justify-end">
           <button
             className="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded font-medium"
