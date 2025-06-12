@@ -1,9 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
-// Create the context
 export const WaiterMealContext = createContext();
 
-// Context Provider
 export const WaiterMealProvider = ({ children }) => {
   const [addedMeals, setAddedMeals] = useState(() => {
     try {
@@ -22,7 +20,6 @@ export const WaiterMealProvider = ({ children }) => {
     }
   }, [addedMeals]);
 
-  // Function to add a meal
   const addMeal = (meal) => {
     setAddedMeals((prev) => {
       const idx = prev.findIndex((m) => m.id === meal.id);
@@ -36,7 +33,6 @@ export const WaiterMealProvider = ({ children }) => {
     });
   };
 
-  // Function to remove a meal
   const removeMeal = (id) => {
     setAddedMeals((prev) => {
       return prev
@@ -54,7 +50,6 @@ export const WaiterMealProvider = ({ children }) => {
   );
 };
 
-// Custom hook for context access
 export const useWaiterMeals = () => {
   const context = useContext(WaiterMealContext);
   if (!context) {

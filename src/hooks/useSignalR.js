@@ -3,7 +3,7 @@ import { HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr"
 
 const createConnection = () => {
   return new HubConnectionBuilder()
-    .withUrl("http://localhost:5050/api/Order/OrderHub")
+    .withUrl("http://localhost:5050/OrderHub")
     .withAutomaticReconnect()
     .build();
 };
@@ -23,11 +23,10 @@ export const useSignalR = () => {
           await connection.start();
           if (isMounted) {
             setIsConnected(true);
-            console.log("✅ SignalR connected")
           }
         }
       } catch (err) {
-        console.error("SignalR connection failed:", err)
+        console.error(err)
       }
     };
 

@@ -31,7 +31,6 @@ const Dashboard = () => {
   };
 
   const handleLogout = () => {
-    // Your logout logic here
     localStorage.clear();
     window.location.href = "/login";
   };
@@ -56,7 +55,7 @@ const Dashboard = () => {
             element={
               <AddUserForm
                 onUserAdded={() => {
-                  // toast.success("Foydalanuvchi muvaffaqiyatli qo'shildi!");
+                  toast.success("Foydalanuvchi muvaffaqiyatli qo'shildi!");
                   navigate("/dashboard");
                 }}
               />
@@ -67,7 +66,6 @@ const Dashboard = () => {
             element={
               <EditUser
                 onSave={() => {
-                  // toast.success("Foydalanuvchi muvaffaqiyatli yangilandi!");
                   navigate("/dashboard");
                 }}
               />

@@ -25,29 +25,28 @@ const months = [
 ];
 
 const today = new Date();
-const formattedDate = `${days[today.getDay()]}, ${today.getDate()} ${
-  months[today.getMonth()]
-} ${today.getFullYear()}`;
+const formattedDate = `${days[today.getDay()]}, ${today.getDate()} ${months[today.getMonth()]
+  } ${today.getFullYear()}`;
 
 const Navbar = ({
   type = "client",
   onMenuClick,
   onCallWaiter,
-  onAddOrder,
   title = "",
   subtitle = "",
-  showGreeting = false,
+  showGreeting = true,
   showCallWaiter = false
 }) => {
+
   const [showModal, setShowModal] = useState(false);
+  const isCallWaiterVisible = type !== "client" && showCallWaiter;
 
   return (
     <div
-      className={`w-full ${
-        type === "client"
-          ? "flex fixed h-16 flex-col gap-3 mt-2 z-50 items-center min-[735px]:flex-row flex-wrap"
-          : "flex fixed justify-between items-center px-4 py-3 bg-gray-50 z-50 shadow-sm"
-      }`}
+      className={`w-full bg-white ${type === "client"
+        ? "flex fixed h-16 flex-col gap-3 z-50 items-center min-[735px]:flex-row flex-wrap"
+        : "flex fixed justify-between items-center px-4 py-3 z-50 shadow-sm"
+        }`}
     >
       <div className="flex items-center space-x-3">
         {(type === "waiter" || type === "cooker") && (
@@ -82,27 +81,20 @@ const Navbar = ({
 
       <div className="flex items-center gap-3">
         <div
-          className={`flex items-center gap-2 ${
-            type === "client"
-              ? "p-2 xl:px-3 bg-white rounded-full"
-              : "bg-white px-3 py-1.5 rounded-full shadow"
-          }`}
+          className={`flex items-center gap-2 ${type === "client"
+            ? "p-2 bg-white rounded-full shadow"
+            : "bg-white p-2 rounded-full shadow"
+            }`}
         >
           {type === "client" ? (
-            <span className="w-[34px] h-[34px] xl:w-[46px] xl:h-[46px] rounded-full bg-[#EFF6FF] flex justify-center items-center">
-              <img
-                src={dateIcon}
-                alt="date"
-                className="w-[20px] h-[20px] xl:w-[30px] xl:h-[30px]"
-              />
-            </span>
+            <CalendarDays className="w-4 h-4 text-blue-500" />
           ) : (
             <CalendarDays className="w-4 h-4 text-blue-500" />
           )}
-          <span className="text-sm xl:text-xl text-black">{formattedDate}</span>
+          <span className="text-sm xl:text-xl text font-medium">{formattedDate}</span>
         </div>
 
-        {showCallWaiter && (
+        {isCallWaiterVisible && (
           <button
             onClick={onCallWaiter}
             className="flex items-center gap-2 p-2 xl:px-3 bg-white rounded-full shadow"
@@ -123,7 +115,7 @@ const Navbar = ({
         ) : (
           <Basket onClick={() => setShowModal(true)} />
         )}
-        
+
         {type === "waiter" ? (
           <WaiterAside showModal={showModal} setShowModal={setShowModal} />
         ) : (

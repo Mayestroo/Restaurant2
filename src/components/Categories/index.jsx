@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import getCategory from "../../api/category";
 import { Link } from "react-router-dom";
 
@@ -36,22 +36,22 @@ const Categories = ({ setSelectedType }) => {
   };
 
   return (
-    <div className="w-full mt-18">
-      <div className="categories fixed flex gap-3 overflow-x-auto no-scrollbar py-2 px-1 sm:px-2">
+    <div className="w-full mt-16 fixed bg-white">
+      <div className="categories flex gap-3 overflow-x-auto no-scrollbar py-2 px-1 sm:px-2">
         {allCards.map((item, index) => (
           <Link
             key={index}
             onClick={() => handleItemClick(item)}
             className={`min-w-[120px] sm:min-w-[135px] max-w-[150px] rounded-2xl p-3 flex-shrink-0 flex flex-col justify-between cursor-pointer transition-all duration-200 hover:shadow-md ${selectedItem === item.name
-              ? "bg-blue-100 border-2 border-blue-500"
-              : "bg-white"
+              ? "bg-red-100 border-red-500 border-2"
+              : "bg-blue-100 border-2 border-blue-500"
               }`}
           >
             <div
-              className="w-[35px] h-[35px] rounded-full transition mx-auto"
+              className="w-[35px] h-[35px] rounded-full bg-[#f63b3b] transition mx-auto"
               style={{
                 backgroundColor:
-                  selectedItem === item.name ? "#3B82F6" : "#F7F7F7",
+                  selectedItem === item.name ? "#f63b3b" : "#3B82F6",
               }}
             />
             <div className="font-medium mt-4 text-sm text-gray-700 truncate text-center">

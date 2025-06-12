@@ -5,7 +5,6 @@ import { WaiterAddOrder } from "../../api/WaiterAddOrder";
 
 const WaiterAside = ({ showModal, setShowModal }) => {
   const { addedMeals, setAddedMeals } = useWaiterMeals();
-  const [error, setError] = useState(null);
   const [datas, setDatas] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -25,7 +24,6 @@ const WaiterAside = ({ showModal, setShowModal }) => {
 
   const sendOrderToBackend = async () => {
     setIsSubmitting(true);
-    setError(null);
     try {
       const orderData = {
         number: `#${Math.floor(Math.random() * 1000)
@@ -49,14 +47,12 @@ const WaiterAside = ({ showModal, setShowModal }) => {
         client: { tableNumber: 1 },
       };
 
-      await WaiterAddOrder(token, orderData, setDatas, setError, clearData);
+      await WaiterAddOrder(token, orderData, setDatas, clearData);
       setShowModal(false);
-    } catch (err) {
-      setError("Buyurtma yuborishda xatolik: " + err.message);
-    } finally {
+    } catch {
       setIsSubmitting(false);
     }
-  };
+  }
 
   useEffect(() => {
     if (showModal) {
@@ -114,8 +110,6 @@ const WaiterAside = ({ showModal, setShowModal }) => {
           <span>Jami:</span>
           <span>{grandTotal.toLocaleString()} so'm</span>
         </div>
-
-        {error && <p className="text-red-500 text-center mt-3">{error}</p>}
 
         <button
           onClick={sendOrderToBackend}
