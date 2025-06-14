@@ -6,7 +6,6 @@ import { LayoutGrid, ShoppingCart, Settings, LogOut } from "lucide-react";
 import { MealsProvider } from "../../context/MealContext";
 
 const Cooker = () => {
-  // For desktop, start open
   const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
@@ -63,7 +62,7 @@ const Cooker = () => {
               bg: "bg-red-100",
               textColor: "red-500",
             }}
-            fullWidth={true} // Always open on desktop
+            fullWidth={true} 
           />
           <main className="flex-1 p-4 overflow-y-auto">
             <Outlet />

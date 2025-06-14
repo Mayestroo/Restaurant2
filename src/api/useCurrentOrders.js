@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { getAllOrders } from "../api/getAllOrders";
+import { getAllOrders } from "./getAllOrders";
 
-export const useOrders = () => {
-  const [allOrders, setAllOrders] = useState([]);
+export const useCurrentOrders = () => {
+  const [currentOrders, setCurrentOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const url = "http://localhost:5050/api/Order/CurrentWaitorOrders";
 
   const parseOrderNumber = (orderNumber) =>
     parseInt(orderNumber.replace(/\D/g, ""), 10) || 0;
@@ -16,15 +17,15 @@ export const useOrders = () => {
       const sorted = orders
         .slice()
         .sort((a, b) => parseOrderNumber(b.orderNumber) - parseOrderNumber(a.orderNumber));
-      setAllOrders(sorted);
+      setCurrentOrders(sorted);
       setError(null);
     } catch (err) {
       setError(err.message || "Buyurtma olishda xatolik.");
-      setAllOrders([]);
+      setCurrentOrders([]);
     } finally {
       setLoading(false);
     }
   };
 
-  return { allOrders, loading, error, fetchOrders };
+  return { currentOrders, loading, error, fetchOrders };
 };

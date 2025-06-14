@@ -16,11 +16,9 @@ const CookerHub = () => {
     setLoading(true);
     try {
       const { orders: allOrders } = await getAllOrders({ skip: 0, take: 1000 });
-      // Filter only orders with status "Preparing"
       const filtered = allOrders.filter(
         (order) => order.status === "Preparing"
       );
-      // Newest first
       filtered.sort(
         (a, b) => parseOrderNumber(b.orderNumber) - parseOrderNumber(a.orderNumber)
       );

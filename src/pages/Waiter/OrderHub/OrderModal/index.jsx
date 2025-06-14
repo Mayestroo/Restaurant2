@@ -2,6 +2,7 @@ import { X } from "lucide-react";
 import dayjs from "dayjs";
 import { handleAcceptOrder } from "../../../../api/acceptOrder";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const OrderModal = ({ showModal, setShowModal, selectedOrder, token, fetchOrders }) => {
   const [error, setError] = useState(null);
@@ -11,7 +12,9 @@ const OrderModal = ({ showModal, setShowModal, selectedOrder, token, fetchOrders
   const onAcceptOrder = async () => {
     try {
       await handleAcceptOrder(selectedOrder.id, token, setShowModal, setError, fetchOrders);
+      toast.success("Buyurtma qabul qilindi!");
     } catch (err) {
+      toast.error("Buyurtma qabul qilishda xatolik yuz berdi!");
       setError(err.message);
     }
   };

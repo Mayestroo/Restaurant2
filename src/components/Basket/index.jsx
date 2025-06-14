@@ -19,7 +19,7 @@ const Basket = ({
   return (
     <div className={`relative flex items-center ${className}`}>
       <button
-        className="order w-auto p-2 bg-white rounded-full gap-2 flex flex-row justify-center items-center shadow hover:shadow-md transition"
+        className="order w-auto py-1 px-1.5 bg-white rounded-full gap-2 flex flex-row justify-center items-center shadow hover:shadow-md transition"
         onClick={onClick}
       >
         <span className="order-basket w-[30px] h-[30px] bg-blue-50 rounded-full flex justify-center items-center">

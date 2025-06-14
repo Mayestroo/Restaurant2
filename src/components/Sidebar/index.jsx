@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { X, Menu } from "lucide-react";
 
 const Sidebar = ({
