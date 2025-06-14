@@ -1,4 +1,3 @@
-// ✅ Clean version (no setDatas or setError inside)
 export default async function getMeal(token, categoryId, name = "") {
   const url = "http://localhost:5050/api/Meal/Meals";
   const requestBody = {

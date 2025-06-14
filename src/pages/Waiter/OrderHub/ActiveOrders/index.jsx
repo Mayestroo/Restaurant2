@@ -1,5 +1,4 @@
-// src/pages/waiter/orders/ActiveOrders.jsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FileText, Loader2 } from "lucide-react";
 import dayjs from "dayjs";
 import OrderModal from "../OrderModal";
@@ -59,7 +58,7 @@ const ActiveOrders = () => {
   }
 
   return (
-    <div className="w-[70vw] ml-[300px] py-8 px-8 flex flex-col mt-16 bg-[#F4F6FA]">
+    <div className="active-orders w-[70vw] ml-[300px] py-8 px-8 flex flex-col mt-16 bg-[#F4F6FA]">
       <header className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Faol buyurtmalar</h1>

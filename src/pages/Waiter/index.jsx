@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
@@ -28,7 +28,7 @@ const Waiter = () => {
     {
       icon: <ShoppingCart />,
       label: "Buyurtmalar",
-      active: location.pathname === "/waiter/orders",
+      active: /^\/waiter\/orders(\/.*)?$/.test(location.pathname),
       onClick: () => navigate("/waiter/orders"),
     },
     {
@@ -38,8 +38,6 @@ const Waiter = () => {
       onClick: () => navigate("/waiter/settings"),
     },
   ];
-
-
 
   return (
     <WaiterMealProvider>
