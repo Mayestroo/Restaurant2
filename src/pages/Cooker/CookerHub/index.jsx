@@ -1,45 +1,42 @@
 import { useEffect, useState } from "react";
-import { getAllOrders } from "../../../api/getAllOrders";
-import { Loader2, FileText } from "lucide-react";
+import { FileText } from "lucide-react";
 import dayjs from "dayjs";
+import { chiefOrders } from "../../../api/chiefOrders";
+import OrderStatuModal from "../CookerHub/OrderStatusModal/index"; 
 
-function parseOrderNumber(str) {
-  return Number(str.replace(/^\D+/g, ""));
-}
+const STATUSES = [
+  { label: "Barchasi", value: "all" },
+  { label: "Buyurtma qilingan", value: 1 },
+  { label: "Qabul qilingan", value: 2 },
+  { label: "Tayyor", value: 3 },
+  { label: "Ofitsiantga topshirilgan", value: 4 },
+];
 
 const CookerHub = () => {
   const [orders, setOrders] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [selectedOrder, setSelectedOrder] = useState(null); 
+  const [counts, setCounts] = useState(null)
 
-  const fetchOrders = async () => {
-    setLoading(true);
+  useEffect(() => {
+    fetchOrders(selectedStatus);
+  }, [selectedStatus]);
+
+  const fetchOrders = async (status) => {
     try {
-      const { orders: allOrders } = await getAllOrders({ skip: 0, take: 1000 });
-      const filtered = allOrders.filter(
-        (order) => order.status === "Preparing"
-      );
-      filtered.sort(
-        (a, b) => parseOrderNumber(b.orderNumber) - parseOrderNumber(a.orderNumber)
-      );
-      setOrders(filtered);
-      setError(null);
-    } catch (err) {
-      setError(err.message || "Buyurtmalarni olishda xatolik.");
-      setOrders([]);
-    } finally {
-      setLoading(false);
+      const statusValue = status === "all" ? undefined : status;
+      const data = await chiefOrders({ skip: 0, take: 10, status: statusValue });
+      setOrders(data.result.data || []);
+      setCounts(data.result.total_counts || null);
+    } catch (error) {
+      console.error("Buyurtmalarni olishda xatolik:", error);
     }
   };
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
   return (
-    <div className="flex min-h-[80vh] bg-[#F4F6FA]">
+    <div className="flex min-h-[80vh] bg-[#F4F6FA] mt-16">
       <main className="flex-1 py-8 px-8 flex flex-col">
-        <header className="flex justify-between items-center mb-6">
+        <header className="flex justify-between items-center mb-4">
           <div>
             <h1 className="text-2xl font-bold text-gray-800">
               Oshpaz uchun buyurtmalar
@@ -49,43 +46,59 @@ const CookerHub = () => {
             </p>
           </div>
           <span className="px-4 py-2 rounded-full bg-green-100 text-green-700 font-semibold">
-            {orders.length} ta buyurtma
+            {counts} ta buyurtma
           </span>
         </header>
-        {error && (
-          <div className="mb-4 text-center text-red-600 bg-red-50 p-3 rounded-lg">
-            {error}
-          </div>
-        )}
+
+        {/* Status Filter */}
+        <div className="flex gap-2 mt-2 mb-6 flex-wrap">
+          {STATUSES.map((status) => (
+            <button
+              key={status.value}
+              onClick={() => setSelectedStatus(status.value)}
+              className={`px-4 py-1 rounded-full border text-sm font-medium ${
+                selectedStatus === status.value
+                  ? "bg-blue-600 text-white"
+                  : "bg-white text-gray-600 border-gray-300"
+              }`}
+            >
+              {status.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Orders List */}
         <div className="relative flex-1">
-          {loading ? (
-            <div className="flex flex-col items-center justify-center h-72">
-              <Loader2 className="animate-spin w-10 h-10 text-green-500" />
-              <span className="mt-3 text-green-500 font-semibold">
-                Yuklanmoqda...
-              </span>
-            </div>
-          ) : orders.length === 0 ? (
+          {counts === 0 ? (
             <div className="flex flex-col items-center justify-center h-72">
               <FileText className="w-16 h-16 text-gray-300 mb-3" />
-              <p className="text-lg text-gray-400">Hozircha buyurtmalar yo‘q</p>
+              <p className="text-lg text-gray-400">
+                Hozircha bu holatda buyurtmalar yo‘q
+              </p>
             </div>
           ) : (
             <ul className="divide-y divide-gray-100">
               {orders.map((order) => (
                 <li
                   key={order.id}
+                  onClick={() => setSelectedOrder(order)} // open modal on click
                   className="flex items-center justify-between py-5 px-6 hover:bg-gray-50 transition cursor-pointer"
                 >
                   <div>
                     <div className="font-semibold text-gray-800 text-[17px]">
-                      {order.clientName}
+                      {order.name}
                     </div>
                     <div className="text-xs text-gray-500">
                       Buyurtma raqami:{" "}
-                      <span className="font-semibold">{order.orderNumber}</span>
-                      &nbsp;|&nbsp;Stol raqami:{" "}
-                      <span className="font-semibold">{order.tableId}</span>
+                      <span className="font-semibold">
+                        {order.orderNumber}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-4 mt-1">
+                      <p>Buyurtma miqdori -</p>
+                      <span className="text-xs text-gray-500">
+                        {order.quantity || 0} ta
+                      </span>
                     </div>
                     <div className="text-xs text-gray-400">
                       {dayjs(order.orderedTime).format("DD.MM.YYYY HH:mm")}
@@ -93,13 +106,8 @@ const CookerHub = () => {
                   </div>
                   <div className="flex items-center gap-8">
                     <div className="text-xl font-semibold text-gray-800">
-                      {order.totalPrice?.toLocaleString()} so'm
+                      {order.price?.toLocaleString()} so'm
                     </div>
-                    <span
-                      className="px-4 py-1 rounded-full border text-xs font-semibold text-yellow-800 bg-yellow-100"
-                    >
-                      {order.status}
-                    </span>
                   </div>
                 </li>
               ))}
@@ -107,6 +115,14 @@ const CookerHub = () => {
           )}
         </div>
       </main>
+
+      {/* Show modal if an order is selected */}
+      {selectedOrder && (
+        <OrderStatuModal
+          order={selectedOrder}
+          onClose={() => setSelectedOrder(null)}
+        />
+      )}
     </div>
   );
 };

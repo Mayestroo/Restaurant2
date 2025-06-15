@@ -30,7 +30,7 @@ const Sidebar = ({
       )}
 
       <div
-        className={`fixed top-0 left-0 h-full bg-white z-50 transition-transform shadow
+        className={`sidebar fixed top-0 left-0 h-full bg-white z-50 transition-transform shadow
           ${fullWidth ? "w-64" : isOpen ? "w-64" : "w-20"}
           ${!fullWidth && "bg-gray-900 text-white"}
           ${isOpen ? "translate-x-0" : fullWidth ? "-translate-x-full" : ""}
@@ -120,7 +120,7 @@ const Sidebar = ({
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40">
           <div className="bg-white rounded-xl shadow-xl p-8 min-w-[300px]">
             <h2 className="text-lg font-semibold mb-4 text-center">Chiqishni tasdiqlaysizmi?</h2>
-            <div className="flex justify-end gap-3">
+            <div className="flex justify-center gap-3">
               <button
                 onClick={() => setShowLogoutModal(false)}
                 className="px-4 py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700"
@@ -134,7 +134,7 @@ const Sidebar = ({
                 }}
                 className="px-4 py-2 rounded bg-red-600 hover:bg-red-700 text-white"
               >
-                Chiqish
+                Ha
               </button>
             </div>
           </div>

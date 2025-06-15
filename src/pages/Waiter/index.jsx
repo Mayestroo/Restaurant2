@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
 import { LayoutGrid, ShoppingCart, Settings, LogOut } from "lucide-react";
 import { WaiterMealProvider } from "../../context/WaiterMealContext";
+import { jwtDecode } from "jwt-decode";
 
 const Waiter = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +18,20 @@ const Waiter = () => {
     localStorage.clear();
     window.location.href = "/login";
   };
+
+  const token = localStorage.getItem("access_token");
+  let name = "";
+  let role = "";
+
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      name = decoded?.name || "";
+      role = decoded?.role || "";
+    } catch (err) {
+      console.error("Token decoding error:", err);
+    }
+  }
 
   const sidebarItems = [
     {
@@ -46,17 +61,16 @@ const Waiter = () => {
           type="waiter"
           onMenuClick={handleSidebarOpen}
           showAddOrder
-          title=""
-          subtitle="Buyurtmalar navbati"
+          title={name}
         />
         <div className="flex flex-1">
           <Sidebar
             isOpen={isOpen}
             onClose={handleClose}
-            user={{ name: "Ashurbek", role: "ofitsant" }}
+            user={{ name, role }}
             items={sidebarItems}
             footerAction={{
-              label: "Log Out",
+              label: "Chiqish",
               onClick: handleLogout,
               icon: <LogOut className="w-4 h-4" />,
             }}

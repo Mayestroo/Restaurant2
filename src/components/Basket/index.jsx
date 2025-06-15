@@ -19,13 +19,13 @@ const Basket = ({
   return (
     <div className={`relative flex items-center ${className}`}>
       <button
-        className="order w-auto py-1 px-1.5 bg-white rounded-full gap-2 flex flex-row justify-center items-center shadow hover:shadow-md transition"
+        className="order w-auto py-2 px-2.5 bg-white rounded-full gap-2 flex flex-row justify-center items-center shadow hover:shadow-md transition"
         onClick={onClick}
       >
-        <span className="order-basket w-[30px] h-[30px] bg-blue-50 rounded-full flex justify-center items-center">
+        <span className="order-basket w-[35px] h-[35px] bg-blue-50 rounded-full flex justify-center items-center">
           <ShoppingCart className="w-5 h-5 text-blue-600" />
         </span>
-        <p className="order-sum mx-1 font-medium">
+        <p className="order-sum text-base font-medium">
           {totalPrice.toLocaleString()} so'm
         </p>
       </button>
