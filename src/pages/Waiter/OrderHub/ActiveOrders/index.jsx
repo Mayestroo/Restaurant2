@@ -18,6 +18,7 @@ const ActiveOrders = () => {
   const connectionRef = useSignalR();
 
   const totalCount = allOrders.length;
+  console.log("Total all current orders:", totalCount);
   const totalPages = Math.ceil(totalCount / PAGE_SIZE);
   const pagedOrders = allOrders.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 

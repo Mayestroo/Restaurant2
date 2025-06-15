@@ -9,13 +9,13 @@ import { jwtDecode } from "jwt-decode";
 
 const CurrentOrders = () => {
   const PAGE_SIZE = 10;
-
   const [page, setPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const connectionRef = useSignalR();
 
+  const connectionRef = useSignalR();
   const { currentOrders, loading, error, fetchOrders } = useCurrentOrders();
+
   const totalCount = currentOrders.length;
   const totalPages = Math.ceil(totalCount / PAGE_SIZE);
   const pagedOrders = currentOrders.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -26,8 +26,7 @@ const CurrentOrders = () => {
 
   useEffect(() => {
     const connection = connectionRef.current;
-
-    const handleReload = () => fetchOrders(); 
+    const handleReload = () => fetchOrders();
 
     if (connection?.state === HubConnectionState.Connected) {
       connection.off("NewOrder");
@@ -52,12 +51,12 @@ const CurrentOrders = () => {
   let decoded = null;
   try {
     decoded = token ? jwtDecode(token) : null;
-  } catch (e) {
+  } catch {
     decoded = null;
   }
 
   return (
-    <div className="current-orders w-[70vw] ml-[300px] py-8 px-8 flex flex-col mt-16 bg-[#F4F6FA]">
+    <div className="current-orders w-[70vw] ml-[300px] py-8 px-8 flex flex-col mt-16 bg-[#F4F6FA] ">
       <header className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Joriy buyurtmalar</h1>
@@ -126,7 +125,7 @@ const CurrentOrders = () => {
       </div>
 
       {totalPages > 1 && (
-        <nav className="flex justify-center gap-1 mt-8">
+        <nav className="flex justify-center gap-1 mt-12">
           <button
             className="px-4 py-2 rounded-lg bg-white border shadow hover:bg-blue-50 disabled:opacity-60"
             onClick={() => setPage((p) => Math.max(1, p - 1))}
@@ -137,11 +136,10 @@ const CurrentOrders = () => {
           {[...Array(totalPages)].map((_, idx) => (
             <button
               key={idx}
-              className={`px-4 py-2 rounded-lg border shadow transition ${
-                page === idx + 1
+              className={`px-4 py-2 rounded-lg border shadow transition ${page === idx + 1
                   ? "bg-blue-500 text-white font-bold"
                   : "bg-white hover:bg-blue-50 text-gray-700"
-              }`}
+                }`}
               onClick={() => setPage(idx + 1)}
             >
               {idx + 1}
@@ -161,8 +159,8 @@ const CurrentOrders = () => {
         showModal={showModal}
         setShowModal={setShowModal}
         selectedOrder={selectedOrder}
-        fetchOrders={fetchOrders} 
-        setError={() => {}}
+        fetchOrders={fetchOrders}
+        setError={() => { }}
         token={token}
         userRole={decoded?.roleId}
       />

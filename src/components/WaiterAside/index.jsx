@@ -8,6 +8,17 @@ const WaiterAside = ({ showModal, setShowModal }) => {
   const [datas, setDatas] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showModal]);
+
   if (!showModal) return null;
 
   const token = localStorage.getItem("access_token");
@@ -23,6 +34,7 @@ const WaiterAside = ({ showModal, setShowModal }) => {
   const clearData = () => setAddedMeals([]);
 
   const sendOrderToBackend = async () => {
+    // if (isSubmitting) return;
     setIsSubmitting(true);
     try {
       const orderData = {
@@ -49,22 +61,22 @@ const WaiterAside = ({ showModal, setShowModal }) => {
 
       await WaiterAddOrder(token, orderData, setDatas, clearData);
       setShowModal(false);
-    } catch {
+    } catch (error) {
+      console.error("Order submission failed:", error);
+    } finally {
       setIsSubmitting(false);
     }
-  }
-
-  useEffect(() => {
-    if (showModal) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-  }, [showModal]);
+  };
 
   return (
-    <div onClick={() => setShowModal(false)} className="fixed inset-0 z-[99] bg-[#5D7FC1]/50 bg-opacity-50 flex items-center justify-center">
-      <div className="relative w-full max-w-md bg-white rounded-xl p-6 shadow-lg">
+    <div
+      onClick={() => setShowModal(false)}
+      className="fixed inset-0 z-[99] bg-[#5D7FC1]/50 bg-opacity-50 flex items-center justify-center"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-md bg-white rounded-xl p-6 shadow-lg"
+      >
         <button
           className="absolute z-[100] top-3 right-4 text-xl"
           onClick={() => setShowModal(false)}
@@ -77,9 +89,9 @@ const WaiterAside = ({ showModal, setShowModal }) => {
 
         <div className="order-list space-y-3 text-gray-700 max-h-[300px] overflow-y-auto pr-1">
           {addedMeals.length > 0 ? (
-            addedMeals.map((meal, idx) => (
+            addedMeals.map((meal) => (
               <div
-                key={idx}
+                key={meal.id}
                 className="flex justify-between items-center bg-gray-100 p-3 rounded-lg"
               >
                 <div>

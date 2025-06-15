@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
-import { LayoutGrid, ShoppingCart, Settings, LogOut } from "lucide-react";
+import { LayoutGrid, Settings, LogOut } from "lucide-react";
 import { MealsProvider } from "../../context/MealContext";
+import {jwtDecode} from "jwt-decode";
 
 const Cooker = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -26,12 +27,6 @@ const Cooker = () => {
       onClick: () => navigate("/cooker"),
     },
     {
-      icon: <ShoppingCart />,
-      label: "Buyurtmalar",
-      active: location.pathname === "/cooker/orders",
-      onClick: () => navigate("/cooker/orders"),
-    },
-    {
       icon: <Settings />,
       label: "Sozlamalar",
       active: location.pathname === "/cooker/settings",
@@ -39,13 +34,27 @@ const Cooker = () => {
     },
   ];
 
+  const token = localStorage.getItem("access_token");
+  let name = "";
+  let role = "";
+
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      name = decoded?.name || "";
+      role = decoded?.role || "";
+      console.log("Decoded token:", decoded.name, decoded.role);
+    } catch (err) {
+      console.error("Token decoding error:", err);
+    }
+  }
+
   return (
     <MealsProvider>
       <div className="min-h-screen flex flex-col">
         <Navbar
           type="cooker"
-          title="Oshpazlar"
-          subtitle="Oshpazlar navbati"
+          title={name}
           onMenuClick={handleSidebarOpen}
         />
         <div className="flex flex-1">
@@ -53,16 +62,16 @@ const Cooker = () => {
             isOpen={isOpen}
             onClose={handleClose}
             toggleSidebar={handleClose}
-            user={{ name: "Ashurbek", role: "oshpaz" }}
+            user={{ name, role }}
             items={sidebarItems}
             footerAction={{
-              label: "Log Out",
+              label: "Chiqish",
               onClick: handleLogout,
               icon: <LogOut className="w-4 h-4" />,
               bg: "bg-red-100",
               textColor: "red-500",
             }}
-            fullWidth={true} 
+            fullWidth={true}
           />
           <main className="flex-1 p-4 overflow-y-auto">
             <Outlet />
